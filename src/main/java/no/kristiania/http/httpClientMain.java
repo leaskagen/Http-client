@@ -14,7 +14,7 @@ public class httpClientMain {
         "Upgrade-Insecure-Requests: 1 \r\n" +
         "User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/93.0.4577.63 Safari/537.36 \r\n" +
         "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9 \r\n" +
-                "Accept-Language: en-US,en;q=0.9,nb;q=0.8,no;q=0.7";
+                "Accept-Language: en-US,en;q=0.9,nb;q=0.8,no;q=0.7 \r\n\r\n";
         socket.getOutputStream().write(request.getBytes());
 
         int c;
