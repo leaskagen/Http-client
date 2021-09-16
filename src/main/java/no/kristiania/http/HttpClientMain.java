@@ -1,22 +1,20 @@
 package no.kristiania.http;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.Socket;
 
 public class HttpClientMain {
 
-    public HttpClientMain(String host, int port, String requestTarget) {
+    private final int statusCode;
 
-    }
+    public HttpClientMain(String host, int port, String requestTarget) throws IOException {
+        Socket socket = new Socket(host, port);
 
-    public static void main(String[] args) throws IOException {
-        Socket socket = new Socket("httpbin.org", 80);
-
-        // request
-        String request =
-                "GET /html HTTP/1.1 \r\n" +
+        socket.getOutputStream().write(
+                ("GET " + requestTarget + " HTTP/1.1 \r\n" +
                 // header fields
-                "Host: httpbin.org \r\n" +
+                "Host: " + host + "\r\n" +
                 "Connection: close \r\n" +
                 "Pragma: no-cache \r\n" +
                 "Cache-Control: no-cache \r\n" +
@@ -24,18 +22,29 @@ public class HttpClientMain {
                 "User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/93.0.4577.63 Safari/537.36 \r\n" +
                 "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9 \r\n" +
                 // "Accept-Encoding: gzip, deflate \r\n" +
-                "Accept-Language: en-US,en;q=0.9,nb;q=0.8,no;q=0.7 \r\n\r\n";
-                socket.getOutputStream().write(request.getBytes());
+                "Accept-Language: en-US,en;q=0.9,nb;q=0.8,no;q=0.7 \r\n\r\n").getBytes()
+        );
+
+
+        String statusLine = readLine(socket);
+        this.statusCode = Integer.parseInt(statusLine.split(" ")[1]);
+    }
+
+    // refactored out with own method
+    private String readLine(Socket socket) throws IOException {
+        StringBuilder result = new StringBuilder();
+        InputStream in = socket.getInputStream();
 
         // response
         int c;
-        while ((c = socket.getInputStream().read()) != -1) {
+        while ((c = in.read()) != -1 && c != '\r') {
             // -1 is the only valie outside 0-255 that may be returnet from read().
-            System.out.print( (char) c);
+            result.append( (char) c);
         }
+        return result.toString();
     }
 
     public int getStatusCode() {
-        return 200;
+        return statusCode;
     }
 }
