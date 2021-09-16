@@ -37,7 +37,7 @@ public class HttpClientMain {
 
         // response
         int c;
-        while ((c = in.read()) != -1 && c != '\r') {
+        while ((c = in.read()) != '\r') {
             // -1 is the only valie outside 0-255 that may be returnet from read().
             result.append( (char) c);
         }
@@ -46,5 +46,9 @@ public class HttpClientMain {
 
     public int getStatusCode() {
         return statusCode;
+    }
+
+    public String getHeader(String responseHeaders) {
+        return null;
     }
 }
