@@ -6,12 +6,11 @@ import java.net.http.HttpClient;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class httpClientTest {
+public class HttpClientTest {
 
-/*    @Test
+    @Test
     void shouldGetSuccessfulResponseCode() {
-        HttpClient client = new HttpClient("httpbin.org", 80, "/html");
+        HttpClientMain client = new HttpClientMain("httpbin.org", 80, "/html");
         assertEquals(200, client.getStatusCode());
-
-    }*/
+    }
 }
