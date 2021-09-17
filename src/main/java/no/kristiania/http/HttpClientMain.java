@@ -9,6 +9,7 @@ public class HttpClientMain {
 
     private final int statusCode;
     private final HashMap<String, String> headerFieldsMap = new HashMap<>();
+    private final String messageBody;
 
     public HttpClientMain(String host, int port, String requestTarget) throws IOException {
         Socket socket = new Socket(host, port);
@@ -39,6 +40,8 @@ public class HttpClientMain {
             String value = headerLine.substring(colonPosition + 1).trim();
             headerFieldsMap.put(key, value);
         }
+
+        this.messageBody = readCharacters(socket, getContentLength());
     }
 
     // refactored out with own method
@@ -51,6 +54,17 @@ public class HttpClientMain {
         while ((c = in.read()) != -1 && c != '\r') {
             // -1 is the only valie outside 0-255 that may be returnet from read().
             result.append( (char) c);
+        }
+        return result.toString();
+    }
+
+    // method to read characters when reading message body
+    private String readCharacters(Socket socket, int contentLength) throws IOException {
+        StringBuilder result = new StringBuilder();
+        InputStream in = socket.getInputStream();
+
+        for (int i = 0; i < contentLength; i++) {
+            result.append( (char) in.read() );
         }
         return result.toString();
     }
@@ -68,6 +82,6 @@ public class HttpClientMain {
     }
 
     public String getMessageBody() {
-        return null;
+        return messageBody;
     }
 }
