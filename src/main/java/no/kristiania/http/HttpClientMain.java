@@ -55,6 +55,9 @@ public class HttpClientMain {
             // -1 is the only valie outside 0-255 that may be returnet from read().
             result.append( (char) c);
         }
+        // below is optional, but remember to add 1 to substring colonposition and '\n' in front of
+        // the startsWith-method when reading messageBody, if you don't use this method
+        /*in.read();*/
         return result.toString();
     }
 
