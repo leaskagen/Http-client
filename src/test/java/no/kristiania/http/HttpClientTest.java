@@ -27,4 +27,15 @@ public class HttpClientTest {
         assertEquals("text/html; charset=utf-8", client.getHeader("Content-Type"));
     }
 
+    @Test
+    void shouldReadServerHeader() throws IOException {
+        HttpClientMain client = new HttpClientMain("httpbin.org", 80, "/html");
+        assertEquals("gunicorn/19.9.0", client.getHeader("Server"));
+    }
+
+    @Test
+    void shouldReadContentLength() throws IOException {
+        HttpClientMain client = new HttpClientMain("httpbin.org", 80, "/html");
+        assertEquals(3741, client.getContentLength());
+    }
 }

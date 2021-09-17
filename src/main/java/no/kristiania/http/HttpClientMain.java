@@ -39,9 +39,6 @@ public class HttpClientMain {
             String value = headerLine.substring(colonPosition + 1).trim();
             headerFieldsMap.put(key, value);
         }
-
-
-
     }
 
     // refactored out with own method
@@ -65,4 +62,9 @@ public class HttpClientMain {
     public String getHeader(String responseHeaders) {
         return headerFieldsMap.get(responseHeaders);
     }
+
+    public int getContentLength() {
+        return Integer.parseInt(getHeader("Content-Length"));
+    }
+
 }
