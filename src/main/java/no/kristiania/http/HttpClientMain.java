@@ -27,10 +27,21 @@ public class HttpClientMain {
                 "Accept-Language: en-US,en;q=0.9,nb;q=0.8,no;q=0.7 \r\n\r\n").getBytes()
         );
 
-        headerFieldsMap.put("Content-Type", "text/html; charset=utf-8");
+        /*headerFieldsMap.put("Content-Type", "text/html; charset=utf-8");*/
 
         String statusLine = readLine(socket);
         this.statusCode = Integer.parseInt(statusLine.split(" ")[1]);
+
+        String headerLine;
+        while (!(headerLine = readLine(socket)).isBlank()) {
+            int colonPosition = headerLine.indexOf(":");
+            String key = headerLine.substring(1, colonPosition);
+            String value = headerLine.substring(colonPosition + 1).trim();
+            headerFieldsMap.put(key, value);
+        }
+
+
+
     }
 
     // refactored out with own method
