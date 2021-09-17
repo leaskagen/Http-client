@@ -36,15 +36,15 @@ public class HttpClientMain {
         String headerLine;
         while (!(headerLine = readLine(socket)).isBlank()) {
             int colonPosition = headerLine.indexOf(":");
-            String key = headerLine.substring(0, colonPosition);
+            String key = headerLine.substring(1, colonPosition);
             String value = headerLine.substring(colonPosition + 1).trim();
             headerFieldsMap.put(key, value);
         }
 
-        this.messageBody = readCharacters(socket, getContentLength());
+        this.messageBody = readCharacters(socket, getContentLength() + 1);
     }
 
-    // refactored out with own method
+    // refactored out with own method to read each header field
     private String readLine(Socket socket) throws IOException {
         StringBuilder result = new StringBuilder();
         InputStream in = socket.getInputStream();
@@ -57,7 +57,7 @@ public class HttpClientMain {
         }
         // below is optional, but remember to add 1 to substring colonposition and '\n' in front of
         // the startsWith-method when reading messageBody, if you don't use this method
-        in.read();
+        /*in.read();*/
         return result.toString();
     }
 
