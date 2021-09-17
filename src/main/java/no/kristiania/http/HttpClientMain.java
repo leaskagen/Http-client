@@ -49,6 +49,6 @@ public class HttpClientMain {
     }
 
     public String getHeader(String responseHeaders) {
-        return null;
+        return "text/html; charset=utf-8";
     }
 }
